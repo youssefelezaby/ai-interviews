@@ -145,7 +145,7 @@
     @apply text-light-100;
   }
   h2 {
-    @apply text-3xl font-semibold;
+    @apply font-semibold text-3xl lg:text-4xl;
   }
   h3 {
     @apply text-2xl font-semibold;
@@ -175,7 +175,7 @@
     @apply flex min-h-14 w-full items-center justify-center gap-1.5 rounded-md;
   }
   .btn-primary {
-    @apply w-fit !bg-primary-200 !text-dark-100 hover:!bg-primary-200/80 !rounded-full !font-bold px-5 cursor-pointer min-h-10;
+    @apply w-fit !bg-white !text-dark-100 hover:!bg-black hover:!text-white !rounded-full !font-bold px-5 cursor-pointer min-h-10;
   }
   .btn-secondary {
     @apply w-fit !bg-dark-200 !text-primary-200 hover:!bg-dark-200/80 !rounded-full !font-bold px-5 cursor-pointer min-h-10;
@@ -262,11 +262,10 @@
   }
 
   .root-layout {
-    @apply flex mx-auto max-w-7xl flex-col gap-12 my-12 px-16 max-sm:px-4 max-sm:my-8;
+    @apply flex mx-auto max-w-screen-2xl flex-col gap-12 my-12 px-16 max-sm:px-4 max-sm:my-8;
   }
-
   .card-cta {
-    @apply flex flex-row blue-gradient-dark rounded-3xl px-16 py-6 items-center justify-between max-sm:px-4;
+    @apply flex flex-row bg-black rounded-3xl px-16 py-6 items-center justify-between max-sm:px-4;
   }
 
   .interviews-section {
@@ -286,7 +285,7 @@
   }
 
   .card-interview {
-    @apply dark-gradient rounded-2xl min-h-full flex flex-col p-6 relative overflow-hidden gap-10 justify-between;
+    @apply bg-black rounded-2xl min-h-full flex flex-col p-6 relative overflow-hidden gap-10 justify-between;
 
     .badge-text {
       @apply text-sm font-semibold capitalize;

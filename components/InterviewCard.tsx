@@ -4,7 +4,7 @@ import { getRandomInterviewCover } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
-
+import SpotlightCard from "./SpotlightCard";
 const InterviewCard = ({
   interviewId,
   userId,
@@ -20,11 +20,14 @@ const InterviewCard = ({
   ).format("MMM D, YYYY");
 
   return (
-    <div className="card-border w-[360px] max-sm:w-full min-h-96">
-      <div className="card-interview">
+    <div className=" w-[360px] max-sm:w-full min-h-96">
+      <SpotlightCard
+        className="card-interview"
+        spotlightColor="rgba(255, 255, 255, 0.2)"
+      >
         <div>
-          <div className="absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg bg-light-600">
-            <p className="badge-text">{normalizedType}</p>
+          <div className="absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg bg-white">
+            <p className="badge-text text-black">{normalizedType}</p>
           </div>
 
           <Image
@@ -45,16 +48,16 @@ const InterviewCard = ({
                 width={22}
                 height={22}
               />
-              <p>{formattedDate}</p>
+              <p className="text-white">{formattedDate}</p>
             </div>
 
-            <div className="flex flex-row gap-2 items-center">
+            <div className="flex flex-row gap-2 items-center ">
               <Image src="/star.svg" alt="star" width={22} height={22} />
-              <p>{feedback?.totalScore || "---"}/100</p>
+              <p className="text-white">{feedback?.totalScore || "---"}/100</p>
             </div>
           </div>
 
-          <p className="line-clamp-2 mt-5">
+          <p className="line-clamp-2 mt-5 text-white">
             {feedback?.finalAssessment ||
               "You haven't taken the interview yet. Take it now to improve your skills."}
           </p>
@@ -75,7 +78,7 @@ const InterviewCard = ({
             </Link>
           </Button>
         </div>
-      </div>
+      </SpotlightCard>
     </div>
   );
 };
