@@ -21,10 +21,7 @@ const InterviewCard = ({
 
   return (
     <div className=" w-[360px] max-sm:w-full min-h-96">
-      <SpotlightCard
-        className="card-interview"
-        spotlightColor="rgba(255, 255, 255, 0.2)"
-      >
+      <SpotlightCard className="card-interview">
         <div>
           <div className="absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg bg-white">
             <p className="badge-text text-black">{normalizedType}</p>
@@ -33,9 +30,9 @@ const InterviewCard = ({
           <Image
             src={getRandomInterviewCover()}
             alt="cover image"
-            width={90}
-            height={90}
-            className="rounded-full object-fit size-[90px]"
+            width={60}
+            height={60}
+            className="rounded-full object-fit size-[60px]"
           />
 
           <h3 className="mt-5 capitalize">{role} Interview</h3>

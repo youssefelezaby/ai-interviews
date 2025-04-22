@@ -100,8 +100,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
     <div className="card-border lg:min-w-[566px]">
       <div className="flex flex-col gap-6 card py-14 px-10">
         <div className="flex flex-row gap-2 justify-center">
-          <Image src="/logo.svg" alt="logo" height={32} width={38} />
-          <h2 className="text-primary-100">AI Interviews</h2>
+          <Image src="/logo.webp" alt="logo" height={32} width={38} />
+          <h2 className="text-white">AI Interviews</h2>
         </div>
 
         <h3>Practice job interview with AI</h3>
@@ -141,11 +141,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
           </form>
         </Form>
 
-        <p className="text-center">
+        <p className="text-center text-white">
           {isSignIn ? "No account yet?" : "Have an account already?"}
           <Link
             href={!isSignIn ? "/sign-in" : "/sign-up"}
-            className="font-bold text-user-primary ml-1"
+            className="font-bold text-white ml-1"
           >
             {!isSignIn ? "Sign in" : "Sign up"}
           </Link>

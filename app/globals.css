@@ -197,15 +197,15 @@
     @apply w-full;
 
     .label {
-      @apply !text-light-100 !font-normal;
+      @apply !text-white !font-normal;
     }
 
     .input {
-      @apply !bg-dark-200 !rounded-full !min-h-12 !px-5 placeholder:!text-light-100;
+      @apply !bg-dark-200 !rounded-full !min-h-12 !px-5 placeholder:!text-white;
     }
 
     .btn {
-      @apply !w-full !bg-primary-200 !text-dark-100 hover:!bg-primary-200/80 !rounded-full !min-h-10 !font-bold !px-5 cursor-pointer;
+      @apply !w-full !bg-white !text-dark-100 hover:!bg-black hover:!text-white !rounded-full !min-h-10 !font-bold !px-5 cursor-pointer;
     }
   }
 
@@ -285,7 +285,7 @@
   }
 
   .card-interview {
-    @apply bg-black rounded-2xl min-h-full flex flex-col p-6 relative overflow-hidden gap-10 justify-between;
+    @apply bg-transparent border border-border rounded-2xl min-h-full flex flex-col p-6 relative overflow-hidden gap-10 justify-between;
 
     .badge-text {
       @apply text-sm font-semibold capitalize;
