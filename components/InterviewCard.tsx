@@ -21,7 +21,7 @@ const InterviewCard = ({
 
   return (
     <div className=" w-[360px] max-sm:w-full min-h-96">
-      <SpotlightCard className="card-interview">
+      <SpotlightCard className="card-interview bg-gradient-to-b from-black/10 to-white/5 backdrop-blur-lg">
         <div>
           <div className="absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg bg-white">
             <p className="badge-text text-black">{normalizedType}</p>
