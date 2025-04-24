@@ -30,7 +30,7 @@ const page = () => {
             Practice on real interview questions & get instant feedback
           </p>
           <Button asChild className="btn-primary ">
-            <Link href="/interview">Start an Interview</Link>
+            <Link href="/interview">Generate a New Interview</Link>
           </Button>
         </div>
         <div className="relative z-10 w-full lg:w-1/3 h-90 hidden lg:block order-2 ml-auto">

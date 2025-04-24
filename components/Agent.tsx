@@ -86,8 +86,8 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
   return (
     <>
       <div className="call-view">
-        <div className="card-interviewer">
-          <div className="w-full relative h-[200px] lg:h-[600px] pointer-events-none">
+        <div className="items-center flex flex-col gap-10 justify-center h-full w-full">
+          <div className="w-full relative h-[300px] lg:h-[400px] pointer-events-none">
             <Orb
               hoverIntensity={0.5}
               rotateOnHover={true}
@@ -111,7 +111,7 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
 
           <div className="w-full flex justify-center">
             {callStatus !== "ACTIVE" ? (
-              <button className="relative btn-call" onClick={handleCall}>
+              <button className="relative btn-call mt-10" onClick={handleCall}>
                 <span
                   className={cn(
                     "absolute animate-ping rounded-full opacity-75",
@@ -119,10 +119,13 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
                   )}
                 />
 
-                <span>{isCallInactiveOrFinished ? "Call" : ". . ."}</span>
+                <span>{isCallInactiveOrFinished ? "Start" : ". . ."}</span>
               </button>
             ) : (
-              <button className="btn-disconnect" onClick={handleDisconnect}>
+              <button
+                className="btn-disconnect  mt-10"
+                onClick={handleDisconnect}
+              >
                 End
               </button>
             )}
