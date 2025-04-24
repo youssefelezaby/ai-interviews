@@ -244,7 +244,7 @@
       @apply bg-neutral-800 rounded-2xl  min-h-12 px-5 py-3 flex items-center justify-center;
 
       p {
-        @apply text-lg text-center text-white;
+        @apply text-3xl text-center !text-white;
       }
     }
   }

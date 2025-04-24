@@ -88,12 +88,14 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
       <div className="call-view">
         <div className="items-center flex flex-col gap-10 justify-center h-full w-full">
           <div className="w-full relative h-[300px] lg:h-[400px] pointer-events-none">
-            <Orb
-              hoverIntensity={0.5}
-              rotateOnHover={true}
-              hue={0}
-              forceHoverState={isSpeaking}
-            />
+            <div className="absolute inset-0 bg-black">
+              <Orb
+                hoverIntensity={0.5}
+                rotateOnHover={true}
+                hue={0}
+                forceHoverState={isSpeaking}
+              />
+            </div>
           </div>
           {messages.length > 0 && (
             <div className="transcript">
