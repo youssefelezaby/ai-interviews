@@ -4,11 +4,12 @@ import Link from "next/link";
 import MetaBalls from "@/components/MetaBalls";
 import InterviewCard from "@/components/InterviewCard";
 import Waves from "@/components/Waves";
+
+import { getCurrentUser } from "@/lib/actions/auth.action";
 import {
-  getCurrentUser,
   getInterviewsByUserId,
   getLatestInterviews,
-} from "@/lib/actions/auth.action";
+} from "@/lib/actions/general.action";
 const page = async () => {
   const user = await getCurrentUser();
 
@@ -42,8 +43,11 @@ const page = async () => {
           <p className=" text-lg lg:text-xl text-white/80">
             Practice on real interview questions & get instant feedback
           </p>
-          <Button asChild className="btn-primary ">
-            <Link href="/interview">Generate a New Interview</Link>
+          <Button asChild className="btn-primary" data-loading-state="false">
+            <Link href="/interview" className="btn-link-container">
+              <span className="btn-text">Generate a New Interview</span>
+              <span className="btn-loading hidden">Loading...</span>
+            </Link>
           </Button>
         </div>
         <div className="relative z-10 w-full lg:w-1/3 h-90 hidden lg:block order-2 ml-auto">

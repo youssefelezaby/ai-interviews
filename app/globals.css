@@ -291,6 +291,20 @@
       @apply text-sm font-semibold capitalize;
     }
   }
+
+  /* Button loading state styles */
+  .btn-primary[data-loading-state="true"] {
+    @apply pointer-events-none opacity-70 relative;
+  }
+
+  .btn-loading {
+    @apply inline-flex items-center;
+  }
+
+  .btn-loading::after {
+    content: "";
+    @apply ml-2 h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin;
+  }
 }
 
 @utility dark-gradient {

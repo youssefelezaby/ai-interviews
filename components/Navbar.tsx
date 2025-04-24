@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 export default function RootNavbar() {
   const pathname = usePathname();
 
-  if (pathname === "/interview") {
+  if (pathname === "/interview" || pathname.startsWith("/interview/")) {
     return null;
   }
 
