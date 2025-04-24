@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { vapi } from "@/lib/vapi.sdk";
+import Orb from "./Orb";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -87,65 +87,47 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
     <>
       <div className="call-view">
         <div className="card-interviewer">
-          <div className="avatar">
-            <Image
-              src="/ai-avatar.png"
-              alt="vapi"
-              width={65}
-              height={54}
-              className="object-cover"
+          <div className="w-full relative h-[200px] lg:h-[600px] pointer-events-none">
+            <Orb
+              hoverIntensity={0.5}
+              rotateOnHover={true}
+              hue={0}
+              forceHoverState={isSpeaking}
             />
-            {isSpeaking && <span className="animate-speak" />}
           </div>
-          <h3>AI Interviewer</h3>
-        </div>
+          {messages.length > 0 && (
+            <div className="transcript">
+              <p
+                key={latestMessage}
+                className={cn(
+                  "transition-opacity duration-500 opacity-0",
+                  "animate-fadeIn opacity-100"
+                )}
+              >
+                {latestMessage}
+              </p>
+            </div>
+          )}
 
-        <div className="card-border">
-          <div className="card-content">
-            <Image
-              src="/user-avatar.png"
-              alt="user avatar"
-              width={540}
-              height={540}
-              className="rounded-full object-cover size-[120px]"
-            />
-            <h3>{userName}</h3>
+          <div className="w-full flex justify-center">
+            {callStatus !== "ACTIVE" ? (
+              <button className="relative btn-call" onClick={handleCall}>
+                <span
+                  className={cn(
+                    "absolute animate-ping rounded-full opacity-75",
+                    callStatus !== "CONNECTING" && "hidden"
+                  )}
+                />
+
+                <span>{isCallInactiveOrFinished ? "Call" : ". . ."}</span>
+              </button>
+            ) : (
+              <button className="btn-disconnect" onClick={handleDisconnect}>
+                End
+              </button>
+            )}
           </div>
         </div>
-      </div>
-      {messages.length > 0 && (
-        <div className="transcript-border">
-          <div className="transcript">
-            <p
-              key={latestMessage}
-              className={cn(
-                "transition-opacity duration-500 opacity-0",
-                "animate-fadeIn opacity-100"
-              )}
-            >
-              {latestMessage}
-            </p>
-          </div>
-        </div>
-      )}
-
-      <div className="w-full flex justify-center">
-        {callStatus !== "ACTIVE" ? (
-          <button className="relative btn-call" onClick={handleCall}>
-            <span
-              className={cn(
-                "absolute animate-ping rounded-full opacity-75",
-                callStatus !== "CONNECTING" && "hidden"
-              )}
-            />
-
-            <span>{isCallInactiveOrFinished ? "Call" : ". . ."}</span>
-          </button>
-        ) : (
-          <button className="btn-disconnect" onClick={handleDisconnect}>
-            End
-          </button>
-        )}
       </div>
     </>
   );

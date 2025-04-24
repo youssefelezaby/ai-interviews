@@ -1,7 +1,7 @@
 import React from "react";
 import Agent from "@/components/Agent";
 import { getCurrentUser } from "@/lib/actions/auth.action";
-
+import Waves from "@/components/Waves";
 const Page = async () => {
   const user = await getCurrentUser();
   return (

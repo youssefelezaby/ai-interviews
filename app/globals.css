@@ -217,7 +217,7 @@
     }
 
     .card-interviewer {
-      @apply flex-center flex-col gap-2 p-7 h-[400px] border border-[#222222] rounded-3xl bg-gradient-to-b from-black/10 to-white/5 backdrop-blur-lg flex-1 sm:basis-1/2 w-full;
+      @apply flex-center flex-col gap-2 p-7 h-[400px] border border-[#222222] rounded-3xl bg-black backdrop-blur-lg flex-1 sm:basis-1/2 w-full;
     }
 
     .avatar {
