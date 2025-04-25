@@ -23,7 +23,7 @@ const Page = async () => {
           text="Interview Generation"
           disabled={false}
           speed={3}
-          className="text-2xl font-bold" // Removed mb-10 from here
+          className="text-2xl font-bold"
         />
       </div>
       <div className="relative z-10 flex flex-col items-center justify-center  text-white p-4">

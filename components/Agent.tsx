@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { vapi } from "@/lib/vapi.sdk";
 import Orb from "./Orb";
 import { interviewer } from "@/constants";
+import { createFeedback } from "@/lib/actions/general.action";
 enum CallStatus {
   INACTIVE = "INACTIVE",
   CONNECTING = "CONNECTING",
@@ -21,47 +22,46 @@ interface SavedMessage {
 const Agent = ({
   userName,
   userId,
-  type,
   interviewId,
+  feedbackId,
+  type,
   questions,
 }: AgentProps) => {
   const router = useRouter();
-  const [isSpeaking, setIsSpeaking] = useState(false);
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
-  const handleGenerateFeedback = async (messages: SavedMessage[]) => {
-    console.log("Generate feedback here.");
-
-    // TODO: Create a server action that generates feedback
-    const { success, id } = {
-      success: true,
-      id: "feedback-id",
-    };
-
-    if (success && id) {
-      router.push(`/interview/${interviewId}/feedback`);
-    } else {
-      console.log("Error saving feedback");
-      router.push("/");
-    }
-  };
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [lastMessage, setLastMessage] = useState<string>("");
 
   useEffect(() => {
-    const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
-    const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
+    const onCallStart = () => {
+      setCallStatus(CallStatus.ACTIVE);
+    };
+
+    const onCallEnd = () => {
+      setCallStatus(CallStatus.FINISHED);
+    };
 
     const onMessage = (message: Message) => {
       if (message.type === "transcript" && message.transcriptType === "final") {
         const newMessage = { role: message.role, content: message.transcript };
-
         setMessages((prev) => [...prev, newMessage]);
       }
     };
 
-    const onSpeechStart = () => setIsSpeaking(true);
-    const onSpeechEnd = () => setIsSpeaking(false);
+    const onSpeechStart = () => {
+      console.log("speech start");
+      setIsSpeaking(true);
+    };
 
-    const onError = (error: Error) => console.log("Error", error);
+    const onSpeechEnd = () => {
+      console.log("speech end");
+      setIsSpeaking(false);
+    };
+
+    const onError = (error: Error) => {
+      console.log("Error:", error);
+    };
 
     vapi.on("call-start", onCallStart);
     vapi.on("call-end", onCallEnd);
@@ -81,6 +81,28 @@ const Agent = ({
   }, []);
 
   useEffect(() => {
+    if (messages.length > 0) {
+      setLastMessage(messages[messages.length - 1].content);
+    }
+
+    const handleGenerateFeedback = async (messages: SavedMessage[]) => {
+      console.log("handleGenerateFeedback");
+
+      const { success, feedbackId: id } = await createFeedback({
+        interviewId: interviewId!,
+        userId: userId!,
+        transcript: messages,
+        feedbackId,
+      });
+
+      if (success && id) {
+        router.push(`/interview/${interviewId}/feedback`);
+      } else {
+        console.log("Error saving feedback");
+        router.push("/");
+      }
+    };
+
     if (callStatus === CallStatus.FINISHED) {
       if (type === "generate") {
         router.push("/");
@@ -88,7 +110,7 @@ const Agent = ({
         handleGenerateFeedback(messages);
       }
     }
-  }, [messages, callStatus, type, userId]);
+  }, [messages, callStatus, feedbackId, interviewId, router, type, userId]);
 
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING);
@@ -102,7 +124,6 @@ const Agent = ({
       });
     } else {
       let formattedQuestions = "";
-
       if (questions) {
         formattedQuestions = questions
           .map((question) => `- ${question}`)
@@ -117,16 +138,10 @@ const Agent = ({
     }
   };
 
-  const handleDisconnect = async () => {
+  const handleDisconnect = () => {
     setCallStatus(CallStatus.FINISHED);
-
     vapi.stop();
   };
-
-  const latestMessage = messages[messages.length - 1]?.content;
-  const isCallInactiveOrFinished =
-    callStatus === CallStatus.INACTIVE || callStatus === CallStatus.FINISHED;
-
   return (
     <>
       <div className="call-view">
@@ -150,20 +165,23 @@ const Agent = ({
           {messages.length > 0 && (
             <div className="transcript">
               <p
-                key={latestMessage}
+                key={lastMessage}
                 className={cn(
                   "transition-opacity duration-500 opacity-0",
                   "animate-fadeIn opacity-100"
                 )}
               >
-                {latestMessage}
+                {lastMessage}
               </p>
             </div>
           )}
 
           <div className="w-full flex justify-center">
             {callStatus !== "ACTIVE" ? (
-              <button className="relative btn-call mt-10" onClick={handleCall}>
+              <button
+                className="relative btn-call mt-10"
+                onClick={() => handleCall()}
+              >
                 <span
                   className={cn(
                     "absolute animate-ping rounded-full opacity-75",
@@ -171,12 +189,16 @@ const Agent = ({
                   )}
                 />
 
-                <span>{isCallInactiveOrFinished ? "Start" : ". . ."}</span>
+                <span>
+                  {callStatus === "INACTIVE" || callStatus === "FINISHED"
+                    ? "Start"
+                    : ". . ."}
+                </span>
               </button>
             ) : (
               <button
-                className="btn-disconnect  mt-10"
-                onClick={handleDisconnect}
+                className="btn-disconnect mt-10"
+                onClick={() => handleDisconnect()}
               >
                 End
               </button>
