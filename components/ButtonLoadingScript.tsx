@@ -1,90 +1,90 @@
-"use client";
+// "use client";
 
-// This component injects a script to handle button loading states
-import { useEffect, useState } from "react";
+// // This component injects a script to handle button loading states
+// import { useEffect, useState } from "react";
 
-export default function ButtonLoadingScript() {
-  // Using useState to ensure consistent rendering between server and client
-  const [isClient, setIsClient] = useState(false);
-  
-  useEffect(() => {
-    // Set isClient to true once on the client side
-    setIsClient(true);
-    
-    function initButtonLoadingHandlers() {
-      // Handle clicks on all buttons with the btn-primary class
-      document.addEventListener("click", function (event) {
-        const target = event.target as HTMLElement;
-        // Find the button element that was clicked or contains the clicked element
-        const button = target.closest(".btn-primary");
+// export default function ButtonLoadingScript() {
+//   // Using useState to ensure consistent rendering between server and client
+//   const [isClient, setIsClient] = useState(false);
 
-        if (button && button.getAttribute("data-loading-state") === "false") {
-          // Set loading state
-          button.setAttribute("data-loading-state", "true");
-          button.classList.add("opacity-70");
+//   useEffect(() => {
+//     // Set isClient to true once on the client side
+//     setIsClient(true);
 
-          // Find and toggle text/loading elements if they exist
-          const textElem = button.querySelector(".btn-text");
-          const loadingElem = button.querySelector(".btn-loading");
+//     function initButtonLoadingHandlers() {
+//       // Handle clicks on all buttons with the btn-primary class
+//       document.addEventListener("click", function (event) {
+//         const target = event.target as HTMLElement;
+//         // Find the button element that was clicked or contains the clicked element
+//         const button = target.closest(".btn-primary");
 
-          if (textElem) textElem.classList.add("hidden");
-          if (loadingElem) loadingElem.classList.remove("hidden");
-        }
-      });
+//         if (button && button.getAttribute("data-loading-state") === "false") {
+//           // Set loading state
+//           button.setAttribute("data-loading-state", "true");
+//           button.classList.add("opacity-70");
 
-      // Reset all button states when page unloads (navigation)
-      window.addEventListener("beforeunload", resetAllButtonStates);
+//           // Find and toggle text/loading elements if they exist
+//           const textElem = button.querySelector(".btn-text");
+//           const loadingElem = button.querySelector(".btn-loading");
 
-      // Create a MutationObserver to watch for navigation events in SPA
-      const observer = new MutationObserver(function (mutations) {
-        // Check if relevant DOM changes indicate a navigation
-        const navigationOccurred = mutations.some(function (mutation) {
-          // Look for changes that might indicate navigation
-          return (
-            (mutation.type === "childList" &&
-              (mutation.target as Element).nodeName === "MAIN") ||
-            mutation.addedNodes.length > 0
-          );
-        });
+//           if (textElem) textElem.classList.add("hidden");
+//           if (loadingElem) loadingElem.classList.remove("hidden");
+//         }
+//       });
 
-        if (navigationOccurred) {
-          resetAllButtonStates();
-        }
-      });
+//       // Reset all button states when page unloads (navigation)
+//       window.addEventListener("beforeunload", resetAllButtonStates);
 
-      // Start observing the document body with the configured parameters
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-      });
-    }
+//       // Create a MutationObserver to watch for navigation events in SPA
+//       const observer = new MutationObserver(function (mutations) {
+//         // Check if relevant DOM changes indicate a navigation
+//         const navigationOccurred = mutations.some(function (mutation) {
+//           // Look for changes that might indicate navigation
+//           return (
+//             (mutation.type === "childList" &&
+//               (mutation.target as Element).nodeName === "MAIN") ||
+//             mutation.addedNodes.length > 0
+//           );
+//         });
 
-    function resetAllButtonStates() {
-      document
-        .querySelectorAll('.btn-primary[data-loading-state="true"]')
-        .forEach(function (button) {
-          button.setAttribute("data-loading-state", "false");
-          button.classList.remove("opacity-70");
+//         if (navigationOccurred) {
+//           resetAllButtonStates();
+//         }
+//       });
 
-          const textElem = button.querySelector(".btn-text");
-          const loadingElem = button.querySelector(".btn-loading");
+//       // Start observing the document body with the configured parameters
+//       observer.observe(document.body, {
+//         childList: true,
+//         subtree: true,
+//       });
+//     }
 
-          if (textElem) textElem.classList.remove("hidden");
-          if (loadingElem) loadingElem.classList.add("hidden");
-        });
-    }
+//     function resetAllButtonStates() {
+//       document
+//         .querySelectorAll('.btn-primary[data-loading-state="true"]')
+//         .forEach(function (button) {
+//           button.setAttribute("data-loading-state", "false");
+//           button.classList.remove("opacity-70");
 
-    // Initialize once when component mounts (only on client side)
-    if (isClient) {
-      initButtonLoadingHandlers();
-    }
+//           const textElem = button.querySelector(".btn-text");
+//           const loadingElem = button.querySelector(".btn-loading");
 
-    // Cleanup on unmount
-    return () => {
-      window.removeEventListener("beforeunload", resetAllButtonStates);
-    };
-  }, [isClient]);
+//           if (textElem) textElem.classList.remove("hidden");
+//           if (loadingElem) loadingElem.classList.add("hidden");
+//         });
+//     }
 
-  // Return an empty script tag - this ensures consistent DOM structure between server and client
-  return <script id="button-loading-script" type="text/javascript" />;
-}
+//     // Initialize once when component mounts (only on client side)
+//     if (isClient) {
+//       initButtonLoadingHandlers();
+//     }
+
+//     // Cleanup on unmount
+//     return () => {
+//       window.removeEventListener("beforeunload", resetAllButtonStates);
+//     };
+//   }, [isClient]);
+
+//   // Return an empty script tag - this ensures consistent DOM structure between server and client
+//   return <script id="button-loading-script" type="text/javascript" />;
+// }

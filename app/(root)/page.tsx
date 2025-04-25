@@ -22,7 +22,7 @@ const page = async () => {
   const hasUpcomingInterviews = latestInterviews?.length > 0;
   return (
     <>
-      <section className="card-cta relative flex items-center gap-8 overflow-hidden ">
+      <section className="card-cta relative flex items-center gap-8 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-20">
           <Waves
             lineColor="#fff"

@@ -20,21 +20,12 @@ const InterviewCard = ({
   ).format("MMM D, YYYY");
 
   return (
-    <div className="w-[360px] max-sm:w-full min-h-96">
+    <div className="w-[360px] max-sm:w-full ">
       <SpotlightCard className="card-interview bg-gradient-to-b from-black/10 to-white/5 backdrop-blur-lg">
         <div>
           <div className="absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg bg-white">
             <p className="badge-text text-black">{normalizedType}</p>
           </div>
-
-          {/* <Image
-            src={getRandomInterviewCover()}
-            alt="cover image"
-            width={60}
-            height={60}
-            className="rounded-full object-fit size-[60px]"
-          /> */}
-
           <h3 className="mt-5 capitalize">{role} Interview</h3>
 
           <div className="flex flex-row gap-5 mt-3">
@@ -63,7 +54,7 @@ const InterviewCard = ({
         <div className="flex flex-row justify-between">
           <DisplayTechIcons techStack={techstack} />
 
-          <Button className="btn-primary" data-loading-state="false">
+          <Button className="btn-primary">
             <Link
               href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}
               className="btn-link-container"

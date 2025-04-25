@@ -7,6 +7,11 @@ import { vapi } from "@/lib/vapi.sdk";
 import Orb from "./Orb";
 import { interviewer } from "@/constants";
 import { createFeedback } from "@/lib/actions/general.action";
+import Link from "next/link";
+import Image from "next/image";
+import ShinyText from "./ShinyText";
+import { Button } from "./ui/button";
+
 enum CallStatus {
   INACTIVE = "INACTIVE",
   CONNECTING = "CONNECTING",
@@ -26,6 +31,7 @@ const Agent = ({
   feedbackId,
   type,
   questions,
+  role,
 }: AgentProps) => {
   const router = useRouter();
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
@@ -144,16 +150,30 @@ const Agent = ({
   };
   return (
     <>
-      <div className="call-view">
-        <div className="items-center flex flex-col gap-10 justify-center h-full w-full">
-          <div
-            className="w-full relative h-[300px] lg:h-[400px] pointer-events-none"
-            style={{
-              backgroundColor: "black",
-              transition: "all 300ms ease-in-out",
-            }}
-          >
-            <div className="absolute inset-0 bg-black">
+      <div className="relative">
+        <div className="fixed inset-0 bg-black -z-10" />
+        <div className="flex gap-5 flex items-center mb-20 lg:mb-0">
+          <Link href="/">
+            <Image
+              src="/back.svg"
+              alt="Back"
+              width={40}
+              height={40}
+              className="cursor-pointer filter invert"
+            />
+          </Link>
+          <ShinyText
+            text={
+              type === "generate" ? "Interview Generation" : `${role} Interview`
+            }
+            disabled={false}
+            speed={3}
+            className="text-2xl lg:text-3xl font-bold"
+          />
+        </div>
+        <div className="call-view mt-10">
+          <div className="items-center flex flex-col gap-10 justify-center h-full w-full">
+            <div className="w-full relative h-[300px] lg:h-[450px] pointer-events-none">
               <Orb
                 hoverIntensity={0.5}
                 rotateOnHover={true}
@@ -161,48 +181,49 @@ const Agent = ({
                 forceHoverState={isSpeaking}
               />
             </div>
-          </div>
-          {messages.length > 0 && (
-            <div className="transcript">
-              <p
-                key={lastMessage}
-                className={cn(
-                  "transition-opacity duration-500 opacity-0",
-                  "animate-fadeIn opacity-100"
-                )}
-              >
-                {lastMessage}
-              </p>
-            </div>
-          )}
 
-          <div className="w-full flex justify-center">
-            {callStatus !== "ACTIVE" ? (
-              <button
-                className="relative btn-call mt-10"
-                onClick={() => handleCall()}
-              >
-                <span
+            {messages.length > 0 && (
+              <div className="transcript">
+                <p
+                  key={lastMessage}
                   className={cn(
-                    "absolute animate-ping rounded-full opacity-75",
-                    callStatus !== "CONNECTING" && "hidden"
+                    "transition-opacity duration-500 opacity-0",
+                    "animate-fadeIn opacity-100"
                   )}
-                />
-
-                <span>
-                  {callStatus === "INACTIVE" || callStatus === "FINISHED"
-                    ? "Start"
-                    : ". . ."}
-                </span>
-              </button>
-            ) : (
-              <button
-                className="btn-disconnect mt-10"
-                onClick={() => handleDisconnect()}
-              >
-                End
-              </button>
+                >
+                  {lastMessage}
+                </p>
+              </div>
             )}
+
+            <div className="w-full flex justify-center">
+              {callStatus !== "ACTIVE" ? (
+                <button
+                  className="relative btn-call mt-10"
+                  onClick={() => handleCall()}
+                >
+                  <span
+                    className={cn(
+                      "absolute animate-ping rounded-full opacity-75",
+                      callStatus !== "CONNECTING" && "hidden"
+                    )}
+                  />
+
+                  <span className="">
+                    {callStatus === "INACTIVE" || callStatus === "FINISHED"
+                      ? "Start"
+                      : "Connecting. . ."}
+                  </span>
+                </button>
+              ) : (
+                <button
+                  className="btn-disconnect mt-10"
+                  onClick={() => handleDisconnect()}
+                >
+                  End
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
