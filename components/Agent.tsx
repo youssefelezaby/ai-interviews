@@ -10,7 +10,6 @@ import { createFeedback } from "@/lib/actions/general.action";
 import Link from "next/link";
 import Image from "next/image";
 import ShinyText from "./ShinyText";
-import { Button } from "./ui/button";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -92,8 +91,6 @@ const Agent = ({
     }
 
     const handleGenerateFeedback = async (messages: SavedMessage[]) => {
-      console.log("handleGenerateFeedback");
-
       const { success, feedbackId: id } = await createFeedback({
         interviewId: interviewId!,
         userId: userId!,
@@ -152,7 +149,7 @@ const Agent = ({
     <>
       <div className="relative">
         <div className="fixed inset-0 bg-black -z-10" />
-        <div className="flex gap-5 flex items-center mb-20 lg:mb-0">
+        <div className="flex gap-5 items-center mb-20 lg:mb-0">
           <Link href="/">
             <Image
               src="/back.svg"
@@ -173,7 +170,7 @@ const Agent = ({
         </div>
         <div className="call-view mt-10">
           <div className="items-center flex flex-col gap-10 justify-center h-full w-full">
-            <div className="w-full relative h-[300px] lg:h-[450px] pointer-events-none">
+            <div className="w-full relative h-[300px] lg:h-[400px] pointer-events-none">
               <Orb
                 hoverIntensity={0.5}
                 rotateOnHover={true}

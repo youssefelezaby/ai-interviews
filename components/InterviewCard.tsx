@@ -4,16 +4,23 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import DisplayTechIcons from "@/components/DisplayTechIcons";
 import SpotlightCard from "./SpotlightCard";
-
-const InterviewCard = ({
-  id,
+import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
+const InterviewCard = async ({
+  interviewId,
   userId,
   role,
   type,
   techstack,
   createdAt,
 }: InterviewCardProps) => {
-  const feedback = null as Feedback | null;
+  const feedback =
+    userId && interviewId
+      ? await getFeedbackByInterviewId({
+          interviewId,
+          userId,
+        })
+      : null;
+
   const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
   const formattedDate = dayjs(
     feedback?.createdAt || createdAt || Date.now()
@@ -21,7 +28,13 @@ const InterviewCard = ({
 
   return (
     <div className="w-[360px] max-sm:w-full ">
-      <SpotlightCard className="card-interview bg-gradient-to-b from-black/10 to-white/5 backdrop-blur-lg">
+      <SpotlightCard
+        className={
+          feedback
+            ? "card-interview bg-gradient-to-b from-black/20 to-white/5 backdrop-blur-lg border !border-green-900"
+            : "card-interview bg-gradient-to-b from-black/20 to-white/5 backdrop-blur-lg"
+        }
+      >
         <div>
           <div className="absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg bg-white">
             <p className="badge-text text-black">{normalizedType}</p>
@@ -36,16 +49,16 @@ const InterviewCard = ({
                 width={22}
                 height={22}
               />
-              <p className="text-white">{formattedDate}</p>
+              <p>{formattedDate}</p>
             </div>
 
             <div className="flex flex-row gap-2 items-center ">
               <Image src="/star.svg" alt="star" width={22} height={22} />
-              <p className="text-white">{feedback?.totalScore || "---"}/100</p>
+              <p>{feedback?.totalScore || "---"}/100</p>
             </div>
           </div>
 
-          <p className="line-clamp-2 mt-5 text-white">
+          <p className="line-clamp-2 mt-5">
             {feedback?.finalAssessment ||
               "You haven't taken the interview yet. Take it now to improve your skills."}
           </p>
@@ -54,15 +67,16 @@ const InterviewCard = ({
         <div className="flex flex-row justify-between">
           <DisplayTechIcons techStack={techstack} />
 
-          <Button className="btn-primary">
+          <Button className={feedback ? "btn-primary-check" : "btn-primary"}>
             <Link
-              href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}
+              href={
+                feedback
+                  ? `/interview/${interviewId}/feedback`
+                  : `/interview/${interviewId}`
+              }
               className="btn-link-container"
             >
-              <span className="btn-text">
-                {feedback ? "Check Feedback" : "View Interview"}
-              </span>
-              <span className="btn-loading hidden">Loading...</span>
+              {feedback ? "Check Feedback" : "View Interview"}
             </Link>
           </Button>
         </div>

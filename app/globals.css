@@ -142,7 +142,7 @@
     @apply bg-background text-white;
   }
   p {
-    @apply text-light-100;
+    @apply text-white;
   }
   h2 {
     @apply font-semibold text-3xl lg:text-4xl;
@@ -177,8 +177,11 @@
   .btn-primary {
     @apply w-fit !bg-white !text-dark-100 hover:!bg-black hover:!text-white !rounded-full !font-bold px-5 cursor-pointer min-h-10;
   }
+  .btn-primary-check {
+    @apply w-fit !bg-green-900 !text-white hover:!bg-white hover:!text-black !rounded-full !font-bold px-5 cursor-pointer min-h-10;
+  }
   .btn-secondary {
-    @apply w-fit !bg-dark-200 !text-primary-200 hover:!bg-dark-200/80 !rounded-full !font-bold px-5 cursor-pointer min-h-10;
+    @apply w-fit !bg-[#222222] !text-white !rounded-full !font-bold px-5 cursor-pointer min-h-10;
   }
 
   .btn-upload {
@@ -290,20 +293,6 @@
     .badge-text {
       @apply text-sm font-semibold capitalize;
     }
-  }
-
-  /* Button loading state styles */
-  .btn-primary[data-loading-state="true"] {
-    @apply pointer-events-none opacity-70 relative;
-  }
-
-  .btn-loading {
-    @apply inline-flex items-center;
-  }
-
-  .btn-loading::after {
-    content: "";
-    @apply ml-2 h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin;
   }
 }
 
