@@ -35,7 +35,13 @@ const Feedback = async ({ params }: RouteParams) => {
         <div className="flex flex-row gap-5">
           {/* Overall Impression */}
           <div className="flex flex-row gap-2 items-center">
-            <Image src="/star.svg" width={22} height={22} alt="star" />
+            <Image
+              src="/star.svg"
+              width={22}
+              height={22}
+              alt="star"
+              className="brightness-0 invert"
+            />
             <p>
               Overall Impression:{" "}
               <span className="text-emerald-500 font-bold">
@@ -47,7 +53,13 @@ const Feedback = async ({ params }: RouteParams) => {
 
           {/* Date */}
           <div className="flex flex-row gap-2">
-            <Image src="/calendar.svg" width={22} height={22} alt="calendar" />
+            <Image
+              src="/calendar.svg"
+              width={22}
+              height={22}
+              alt="calendar"
+              className="brightness-0 invert"
+            />
             <p>
               {feedback?.createdAt
                 ? dayjs(feedback.createdAt).format("MMM D, YYYY h:mm A")
@@ -67,7 +79,8 @@ const Feedback = async ({ params }: RouteParams) => {
         {feedback?.categoryScores?.map((category, index) => (
           <div key={index}>
             <p className="font-bold">
-              {index + 1}. {category.name} ({category.score}/100)
+              {index + 1}. {category.name}{" "}
+              <span className="text-emerald-500">{category.score}</span>/100
             </p>
             <p>{category.comment}</p>
           </div>
@@ -93,13 +106,13 @@ const Feedback = async ({ params }: RouteParams) => {
       </div>
 
       <div className="buttons">
-        <Button className="btn-secondary flex-1">
+        <Button className="btn-secondary flex-1 py-4 md:py-3">
           <Link href="/" className="flex w-full justify-center">
             Back to dashboard
           </Link>
         </Button>
 
-        <Button className="btn-primary flex-1">
+        <Button className="btn-primary flex-1 py-4 md:py-3">
           <Link
             href={`/interview/${id}`}
             className="flex w-full justify-center"
