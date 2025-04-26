@@ -31,8 +31,8 @@ export default function RootNavbar() {
         <h2 className="text-white">AI Interviews</h2>
       </Link>
 
-      <button onClick={handleLogout} className="btn-primary">
-        Logout
+      <button onClick={handleLogout} className="btn-sign-out">
+        Sign out
       </button>
     </nav>
   );
