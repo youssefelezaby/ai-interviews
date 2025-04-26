@@ -4,6 +4,7 @@ import Link from "next/link";
 import MetaBalls from "@/components/MetaBalls";
 import InterviewCard from "@/components/InterviewCard";
 import Waves from "@/components/Waves";
+import ButtonLoadingScript from "@/components/ButtonLoadingScript";
 
 import { getCurrentUser } from "@/lib/actions/auth.action";
 import {
@@ -13,16 +14,19 @@ import {
 const page = async () => {
   const user = await getCurrentUser();
 
-  if (user) {
+  if (user && user.id) {
+    // Check if user and user.id exist
     const [userInterviews, allInterview] = await Promise.all([
-      await getInterviewsByUserId(user?.id!),
-      await getLatestInterviews({ userId: user?.id! }),
+      getInterviewsByUserId(user.id), // Use user.id directly
+      getLatestInterviews({ userId: user.id }), // Use user.id directly
     ]);
 
-    const hasPastInterviews = userInterviews?.length! > 0;
-    const hasUpcomingInterviews = allInterview?.length! > 0;
+    // Use optional chaining or provide default values
+    const hasPastInterviews = (userInterviews?.length ?? 0) > 0;
+    const hasUpcomingInterviews = (allInterview?.length ?? 0) > 0;
     return (
       <>
+        <ButtonLoadingScript />
         <section className="card-cta relative flex items-center gap-8 overflow-hidden">
           <div className="absolute inset-0 z-0 opacity-20">
             <Waves
@@ -45,7 +49,11 @@ const page = async () => {
               Practice on real interview questions & get instant feedback
             </p>
             <Button asChild className="btn-primary">
-              <Link href="/interview" className="btn-link-container">
+              <Link
+                href="/interview"
+                className="btn-link-container"
+                data-loading-button
+              >
                 <span className="btn-text">Generate a New Interview</span>
               </Link>
             </Button>
@@ -72,7 +80,7 @@ const page = async () => {
               userInterviews?.map((interview) => (
                 <InterviewCard
                   key={interview.id}
-                  userId={user?.id}
+                  userId={user.id} // Use user.id directly
                   interviewId={interview.id}
                   role={interview.role}
                   type={interview.type}
@@ -86,13 +94,13 @@ const page = async () => {
           </div>
         </section>
         <section className="flex flex-col gap-6 mt-8">
-          <h2>Take an Interview</h2>
+          <h2>Other Interview</h2>
           <div className="interviews-section">
             {hasUpcomingInterviews ? (
               allInterview?.map((interview) => (
                 <InterviewCard
                   key={interview.id}
-                  userId={user?.id}
+                  userId={user.id} // Use user.id directly
                   interviewId={interview.id}
                   role={interview.role}
                   type={interview.type}

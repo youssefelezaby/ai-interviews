@@ -74,18 +74,22 @@ const InterviewCard = async ({
         <div className="flex flex-row justify-between">
           <DisplayTechIcons techStack={techstack} />
 
-          <Button className={feedback ? "btn-primary-check" : "btn-primary"}>
-            <Link
-              href={
-                feedback
-                  ? `/interview/${interviewId}/feedback`
-                  : `/interview/${interviewId}`
-              }
-              className="btn-link-container"
-            >
-              {feedback ? "Check Feedback" : "View Interview"}
-            </Link>
-          </Button>
+          <Link
+            href={
+              feedback
+                ? `/interview/${interviewId}/feedback`
+                : `/interview/${interviewId}`
+            }
+            className="btn-link-container"
+            data-loading-button
+            passHref
+          >
+            <Button className={feedback ? "btn-primary-check" : "btn-primary"}>
+              <span className="btn-text">
+                {feedback ? "Check Feedback" : "View Interview"}
+              </span>
+            </Button>
+          </Link>
         </div>
       </SpotlightCard>
     </div>
